@@ -24,8 +24,7 @@ export default class Busqueda extends Component {
         idPersona: 0,
         observacion: ''
     };
-
-
+     
     crearPersona = () =>{
         //this.setState({nombre:a, idPersona:b})
         console.log('Creando Persona')
@@ -62,21 +61,48 @@ export default class Busqueda extends Component {
       
     }
 
-    async componentDidMount(){
+     getTipoTramites= async()=>{
         const resTipoTramite = await Axios.get(CONFIG+'Tipo_tramite/lista')
+        this.setState({tipo_tramites: resTipoTramite.data})  
+    }
+
+    getEstados = async()=>{
         const resEstado= await Axios.get(CONFIG+'Estado/lista')
+        this.setState({estados: resEstado.data})
+    }
+    getConceptos = async ()=>{
+        const resConceptos = await Axios.get(CONFIG+'concepto/conceptos')
+        this.setState({conceptos: resConceptos.data})
+    }
+    getAnotaciones = async () =>{
+        const resAnotacion = await Axios.get(CONFIG+'Anotacion/lista')
+        console.log(CONFIG+'Anotacion/lista')
+        this.setState({anotaciones: resAnotacion.data})
+    }
+    getRecursos = async ()=>{
+        const resRecursos = await Axios.get(CONFIG+'administrativo/lista')
+        this.setState({recursos: resRecursos.data})
+    }
+    componentDidMount(){
+        this.getAnotaciones()
+        this.getConceptos()
+        this.getEstados()
+        this.getRecursos()
+        this.getTipoTramites()
+        /**const resEstado= await Axios.get(CONFIG+'Estado/lista')
         const resConceptos = await Axios.get(CONFIG+'concepto/conceptos')
         const resAnotacion = await Axios.get(CONFIG+'Anotacion/lista')
         const resRecursos = await Axios.get(CONFIG+'administrativo/lista')
         this.setState({ estados: resEstado.data, tipo_tramites: resTipoTramite.data
         , conceptos: resConceptos.data, anotaciones: resAnotacion.data, recursos: resRecursos.data})
+     **/
+      
     }
 
     render() {
-       
         return (
             <div>
-                <TipoBusqueda addPersona={this.crearPersona} className="py4 px-4"/>
+                 <TipoBusqueda addPersona={this.crearPersona} className="py4 px-4"/>
                 <div className="form-group">
                 <form onSubmit={this.onSubmit}>
                 <table className="table" >
@@ -98,11 +124,11 @@ export default class Busqueda extends Component {
                         <tr>
                         
                         <th><input type="text" name="numero" onChange={this.handleChange} required className="form-control form-control-sm" /></th>
-                        <td><input type="text" disabled value={this.state.nombre} name="nombre" onChange={this.handleChange} required className="form-control form-control-sm" /></td>
+                        <td><input type="text"  value={this.state.nombre} name="nombre" onChange={this.handleChange} required className="form-control form-control-sm" /></td>
                         <td>
                             <div className="">
                             <select name="concepto" onChange={this.handleChange} className="custom-select custom-select-sm">
-                            <option value="" disabled selected>Eliga una opción</option>
+                            <option value=""  selected>Eliga una opción</option>
                             <option value="">Sin Concepto</option>
                             {
                                 this.state.conceptos.map(concepto => 
@@ -155,7 +181,7 @@ export default class Busqueda extends Component {
                     </tbody>
                 </table>
             </form>
-            </div>
+            </div>  
             </div>
         )
     }
