@@ -22,16 +22,20 @@ export default class Busqueda extends Component {
         anotacion: 0,
         estado: 0,
         idPersona: 0,
-        observacion: ''
+        observacion: '',
+        
     };
      
-    crearPersona = () =>{
-        //this.setState({nombre:a, idPersona:b})
+    
+
+    crearPersona = (a, b) =>{
+        this.setState({nombre:b, idPersona:a})
         console.log('Creando Persona')
     }
 
     onSubmit = async e =>{
         e.preventDefault();
+        console.log(this.state)
         this.setState({fechaAsignacion: new Date()})
         await Axios.post(CONFIG+'Expediente_cab/guardarExpediente_cab',{ 
             n_expedediente:this.state.numero,
@@ -48,7 +52,6 @@ export default class Busqueda extends Component {
             f_asignacion:this.state.fechaAsignacion,
             observaciones:this.scope.observacion
         })  
-        this.props.updateTramite()
            
     }
 
@@ -89,20 +92,12 @@ export default class Busqueda extends Component {
         this.getEstados()
         this.getRecursos()
         this.getTipoTramites()
-        /**const resEstado= await Axios.get(CONFIG+'Estado/lista')
-        const resConceptos = await Axios.get(CONFIG+'concepto/conceptos')
-        const resAnotacion = await Axios.get(CONFIG+'Anotacion/lista')
-        const resRecursos = await Axios.get(CONFIG+'administrativo/lista')
-        this.setState({ estados: resEstado.data, tipo_tramites: resTipoTramite.data
-        , conceptos: resConceptos.data, anotaciones: resAnotacion.data, recursos: resRecursos.data})
-     **/
-      
     }
 
     render() {
         return (
             <div>
-                 <TipoBusqueda addPersona={this.crearPersona} className="py4 px-4"/>
+                 <TipoBusqueda addPersona={this.crearPersona} getTramite={this.props.getTramite} className="py4 px-4"/>
                 <div className="form-group">
                 <form onSubmit={this.onSubmit}>
                 <table className="table" >
@@ -124,12 +119,11 @@ export default class Busqueda extends Component {
                         <tr>
                         
                         <th><input type="text" name="numero" onChange={this.handleChange} required className="form-control form-control-sm" /></th>
-                        <td><input type="text"  value={this.state.nombre} name="nombre" onChange={this.handleChange} required className="form-control form-control-sm" /></td>
+                        <td><input type="text"  value={this.state.nombre} disabled name="nombre" onChange={this.handleChange} required className="form-control form-control-sm" /></td>
                         <td>
                             <div className="">
                             <select name="concepto" onChange={this.handleChange} className="custom-select custom-select-sm">
-                            <option value=""  selected>Eliga una opción</option>
-                            <option value="">Sin Concepto</option>
+                            <option value="" selected>Sin concepto</option>
                             {
                                 this.state.conceptos.map(concepto => 
                                     <option value={concepto.idConcepto}>{concepto.concepto}</option>)
@@ -157,7 +151,7 @@ export default class Busqueda extends Component {
                             </select> 
                         </td>
                         <td> 
-                        <select name="anotacion" onChange={this.handleChange} required className="custom-select custom-select-sm">
+                        <select name="anotacion" onChange={this.handleChange}  className="custom-select custom-select-sm">
                             <option value="" disabled selected>Eliga una opción</option>
                             {
                                 this.state.anotaciones.map(anotacion => 
