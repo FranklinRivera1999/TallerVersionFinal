@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 
+import axios from 'axios';
+import CONFIG  from '../Configuracion/Config';
+
 export default class Filtros extends Component {
 
     state={
@@ -17,8 +20,9 @@ export default class Filtros extends Component {
 
      onSubmit = async e =>{
         e.preventDefault();
-        console.log(this.state)
-        //this.props.updateTramite()       
+        const res= await axios.get(CONFIG+'expedienteTotal/listaByFecha/'+this.state.inicio+'/'+this.state.final) 
+        console.log(CONFIG+'expedienteTotal/listaByFecha/'+this.state.inicio+'/'+this.state.final)
+        this.props.updateTramite(res.data)
     }
 
     render() {
@@ -33,10 +37,7 @@ export default class Filtros extends Component {
                         <label for="final">Fin:</label>
                             <input type="date" className="form-control mx-1" name="final" id="final" onChange={this.handleChange}/>
                         </div>
-                        <div className="form-group mb-2">
-                            <label for="nombres">Persona:</label>
-                            <input  type="text" className="form-control mx-1" name="nombres" id="nombres" onChange={this.handleChange}/>
-                        </div>
+                        
                         <div className="form-group mb-2">
                             <button className="btn btn-success px-4" type="submit">Filtrar</button>
                         </div>

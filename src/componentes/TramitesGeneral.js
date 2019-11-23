@@ -13,6 +13,10 @@ deleteTramite = async(id) =>{
     this.getTramites()
 }
 
+asignarTramites = (a) =>{
+    this.setState({tramites: a})
+}
+
 getTramites = async ()=>{
     const res = await axios.get(CONFIG+'expedienteTotal/lista')
     this.setState({tramites: res.data})
@@ -25,7 +29,7 @@ async componentDidMount(){
     render() {
         return (
             <div className="py-4">
-                <Filtros  className="py-2" updateTramite={this.getTramites()} />
+                <Filtros  className="py-2" updateTramite={this.asignarTramites} />
                 <table className="table">
                 <thead className="thead-dark">
                     <tr>
