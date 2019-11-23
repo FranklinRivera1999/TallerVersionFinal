@@ -14,7 +14,7 @@ deleteTramite = async(id) =>{
 }
 
 getTramites = async ()=>{
-    const res = await axios.get(CONFIG+'HistorialTramites/listaTramite')
+    const res = await axios.get(CONFIG+'expedienteTotal/lista')
     this.setState({tramites: res.data})
 }
 
@@ -29,33 +29,33 @@ async componentDidMount(){
                 <table className="table">
                 <thead className="thead-dark">
                     <tr>
-                    <th scope="col">Número</th>
+                    <th scope="col">N°</th>
                     <th scope="col">Concepto</th>
                     <th scope="col">Trámite</th>
-                    <th scope="col">ID Alumno</th>
+                    <th scope="col">Persona</th>
                     <th scope="col">Fecha del Trámite</th>
                     <th scope="col">Fecha de Asignación</th>
-                    <th scope="col">ID Recurso</th>
+                    <th scope="col">Recurso</th>
                     <th scope="col">Anotación</th>
                     <th scope="col">Estado</th>
-                    <th scope="col"></th>
+                    <th scope="col">Observaciones</th>
                     </tr>
                 </thead>
                 <tbody>                  
                         {
                             this.state.tramites.map(tramite => 
                             <tr>
-                            <th scope="row">{tramite.id_numero_tramite}</th>
-                            <td>{tramite.concepto}</td>
-                            <td>{tramite.nombre_tramite}</td>
-                            <td>{tramite.id_alum}</td>
-                            <td>{tramite.fecha_tramite}</td>
-                            <td>{tramite.fecha_asignacion}</td>
-                            <td>{tramite.id_admin}</td>
-                            <td>{tramite.anotacion}</td>
-                            <td>{tramite.estado}</td>
+                            <th scope="row">{tramite.n_expediente}</th>
+                            <td>{tramite.concep_a}</td>
+                            <td>{tramite.desc_tipotramite}</td>
+                            <td>{tramite.persona_nombres + ' '+tramite.persona_apaterno +' '+ tramite.persona_amaterno}</td>
+                            <td>{tramite.f_expediente}</td>
+                            <td>{tramite.f_asignacion}</td>
+                            <td>{tramite.apellidos}</td>
+                            <td>{tramite.desc_anotacion}</td>
+                            <td>{tramite.estado_descripcion}</td>
                             <td>
-                                <button onClick={()=>this.deleteTramite(tramite.id_numero_tramite)} className="btn btn-outline-danger btn-sm">Eliminar</button>
+                               {tramite.observaciones}
                             </td>
                             
                             </tr>
