@@ -50,7 +50,7 @@ export default class Busqueda extends Component {
             id_anotacion:this.state.anotacion,
             estado_id: this.state.estado,
             f_asignacion:this.state.fechaAsignacion,
-            observaciones:this.scope.observacion
+            observaciones:this.state.observacion
         })  
            
     }
