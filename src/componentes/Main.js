@@ -45,12 +45,12 @@ getTramite = async (x) =>{
             <div>
                 <Busqueda getTramite={this.getTramite} className="py-2"/>   
                 <div className="card col-sm-6 offset-md-3 py-2">
-                <h5 class="card-header">DETALLES DEL REGISTRO:</h5>
+                <h5 class="card-header h4"><strong>DETALLES DEL REGISTRO:</strong></h5>
                 <div className="card-body">
-                    <p className="card-text">Número de Expediente: {this.state.tramite.n_expediente}</p>
-                    <p className="card-text">Persona: {this.state.tramite.persona_nombres + ' '+ this.state.tramite.persona_apaterno +' '+ this.state.tramite.persona_amaterno}</p> 
-                    <p className="card-text">Trámite: {this.state.tramite.desc_tipotramite}</p>
-                    <p className="card-text">Fecha: {this.state.tramite.f_expediente}</p>
+                    <p className="card-text h5">Número de Expediente: {this.state.tramite.n_expediente}</p>
+                    <p className="card-text h5">Persona: {this.state.tramite.persona_nombres + ' '+ this.state.tramite.persona_apaterno +' '+ this.state.tramite.persona_amaterno}</p> 
+                    <p className="card-text h5">Trámite: {this.state.tramite.desc_tipotramite}</p>
+                    <p className="card-text h5">Fecha: {this.state.tramite.f_expediente}</p>
                 </div>
                 </div>
 

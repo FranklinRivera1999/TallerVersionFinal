@@ -24,9 +24,11 @@ export default class TipoBusqueda extends Component {
                  <table className="table">
                             <thead>
                                 <tr>
+                                <th scope="col">Persona</th>
                                 <th scope="col">#</th>
                                 <th scope="col">Tipo Trámite</th>
                                 <th scope="col">Fecha</th>
+                                <th scope="col"></th>
                                 <th scope="col"></th>
                                 </tr>
                             </thead>
@@ -34,17 +36,20 @@ export default class TipoBusqueda extends Component {
                             { 
                                 this.state.tramites.map(tramite => 
                                     <tr>
-                                    <th scope="row">{tramite.n_expediente}</th>
+                                    <th scope="row">{tramite.persona_nombres}</th>
+                                    <th >{tramite.n_expediente}</th>
                                     <td>{tramite.desc_tipotramite}</td>
                                     <td>{tramite.f_expediente}</td>
                                     <td>
-                                    <button onClick={()=>this.seleccionarTramite(tramite.n_expediente)} className="btn btn-outline-info btn-sm">Select</button>
+                                    <button data-dismiss="modal" onClick={()=>this.verTramite(tramite.n_expediente)} className="btn btn-outline-info btn-sm"  data-toggle="modal" data-target=".bd-example-modal-lg">seleccionar</button>
+                                    </td>
+                                    <td>
+                                    <button data-dismiss="modal" type="button" className="btn btn-warning btn-sm" onClick={()=>this.props.addPersona(tramite.persona_id, tramite.persona_nombres)}>Agregar Trámite</button>    
                                     </td>
                                     </tr>)
                             }
                             </tbody>
                             </table>
-                            <button data-dismiss="modal" onClick={()=>this.verTramite(this.state.tramiteSeleccionado)} className="btn btn-outline-info mx-4 py-2 my-2" data-toggle="modal" data-target=".bd-example-modal-lg">Buscar</button> 
                             </div>  
             );
         }
@@ -69,6 +74,7 @@ export default class TipoBusqueda extends Component {
 
     seleccionarTramite = (id) =>{
         this.setState({tramiteSeleccionado: id})
+        this.verTramite(this.state.tramiteSeleccionado)
     }
 
     onSubmitnUMERO = async e =>{
@@ -94,7 +100,7 @@ export default class TipoBusqueda extends Component {
                         <div className="mx-2">
                             <input onChange={this.handleChange} name="nombres" className="form-control" type="text" placeholder="Ingrese Nombres"/>
                         </div>
-                    <button className="btn btn-success px-4" type="submit" data-toggle="modal" data-target="#exampleModal">Buscar por Persona</button>
+                    <button className="btn btn-success px-4" type="submit" data-toggle="modal" data-target=".bd-example-modal-lg">Buscar por Persona</button>
                     </div>
                 </form>
                 <form onSubmit={this.onSubmitnUMERO} className="px-8">
@@ -106,22 +112,23 @@ export default class TipoBusqueda extends Component {
                     </div>
                 </form>
                 </div>   
-                <div className="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div className="modal-dialog" role="document">
-                        <div className="modal-content">
+
+                
+                    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title" id="exampleModalLabel">Trámites</h5>
+                            <h6 className="modal-title" id="exampleModalLabel">       Trámites</h6>
                             <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div className="modal-body">
-                            <this.resultados/>
-                             <button data-dismiss="modal" type="button" className="btn btn-warning px-5" onClick={()=>this.props.addPersona(this.state.tramites[0].persona_id, this.state.tramites[0].persona_nombres)}>Crear Trámite</button>
+                        <div className="modal-body"></div>
+                        <this.resultados/>
                         </div>
                         </div>
                     </div>
-                </div>
+                    
                             
             </div>
         )

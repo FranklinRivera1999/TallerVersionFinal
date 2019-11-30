@@ -176,6 +176,7 @@ export default class Busqueda extends Component {
                 </table>
             </form>
             </div>  
+
             </div>
         )
     }
