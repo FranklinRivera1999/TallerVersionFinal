@@ -104,22 +104,18 @@ export default class Busqueda extends Component {
                     <thead>
                         <tr>
                         <th scope="col">Número</th>
-                        <th scope="col">Nombres:</th>
                         <th scope="col">Concepto</th>
                         <th scope="col">Trámite</th>
                         <th scope="col">Fecha del Trámite</th>
                         <th scope="col">Recurso</th>
                         <th scope="col">Anotación</th>
-                        <th scope="col">Estado</th>
-                        <th scope="col">Observación</th>
-                        <th scope="col"></th>
+                        <th scope="col">Estado</th>                   
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                         
                         <th><input type="text" name="numero" onChange={this.handleChange} required className="form-control form-control-sm" /></th>
-                        <td><input type="text"  value={this.state.nombre} disabled name="nombre" onChange={this.handleChange} required className="form-control form-control-sm" /></td>
                         <td>
                             <div className="">
                             <select name="concepto" onChange={this.handleChange} className="custom-select custom-select-sm">
@@ -166,10 +162,6 @@ export default class Busqueda extends Component {
                                     <option value={estado.estado_id}>{estado.estado_descripcion}</option>)
                             }
                             </select> 
-                        </td>
-                        <th><input type="text" name="observacion" onChange={this.handleChange} className="form-control form-control-sm" /></th>
-                        <td>
-                            <button className="btn btn-success" type="submit">Guardar</button>
                         </td>
                         </tr>
                     </tbody>

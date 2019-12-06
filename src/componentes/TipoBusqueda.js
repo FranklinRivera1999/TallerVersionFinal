@@ -108,7 +108,7 @@ export default class TipoBusqueda extends Component {
                     <div className="mx-2">
                         <input onChange={this.handleChange} name="numero" className="form-control" type="text" placeholder="Ingrese Expediente"/> 
                     </div>
-                    <button className="btn btn-success px-4" type="submit">Buscar por Expediente</button> 
+                    <button className="btn btn-success px-4" type="submit">Buscar Expediente</button> 
                     </div>
                 </form>
                 </div>   
