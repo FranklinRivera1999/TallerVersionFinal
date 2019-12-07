@@ -43,11 +43,11 @@ export default class Busqueda extends Component {
     onSubmit = async e =>{
         e.preventDefault();
         if(this.state.idPersona === 0){
-            console.log('falta la persona p mongol')
+            console.log('falta la persona')
         }else{
-            console.log(this.state)
+            console.log('Empezando a wardar la cabezera')
         this.setState({fechaAsignacion: new Date()})
-        const res = await Axios.post(CONFIG+'Expediente_cab/guardarExpediente_cab',{ 
+        const res = await Axios.post(CONFIG+'Expediente_cab/registrarExpediente_cab',{ 
             n_expedediente:this.state.numero,
             f_expediente:this.state.fechaTramite,
             persona_id:this.state.idPersona,
@@ -55,14 +55,18 @@ export default class Busqueda extends Component {
             estado_id:this.state.estado
         })
         console.log(res)
-        await Axios.post(CONFIG+'Expediente_det/guardarExpediente_det',{
-            id_expedienteCab: this.state.numero,
-            persona_id:this.state.idPersona,
+        console.log(res.data.id_expediente)
+        console.log('Guardando expediente')
+        console.log(this.state)
+       const ras =  await Axios.post(CONFIG+'Expediente_det/guardarExpediente_det',{
+            id_expediente: res.data.id_expediente,
+            persona_id:this.state.recurso,
             id_anotacion:this.state.anotacion,
             estado_id: this.state.estado,
             f_asignacion:this.state.fechaAsignacion,
             observaciones:this.state.observacion
         })  
+        console.log(ras)
         }
            
     }
@@ -158,8 +162,8 @@ export default class Busqueda extends Component {
         return (
             <div>
                  <TipoBusqueda agregarPersona={this.crearPersona} getTramite={this.props.getTramite} className="py4 px-4"/>
-                 <this.InformacionPersona className="py-2"/>
-                <div className="form-group py-2">
+                 <this.InformacionPersona className="py-1"/>
+                <div className="form-group py-1">
                 
                 <form onSubmit={this.onSubmit}>
                 <table className="table" >
@@ -229,8 +233,8 @@ export default class Busqueda extends Component {
                     </tbody>
                 </table>
                 <div  className="col-sm-12">
-                <label for="exampleFormControlTextarea1"><strong>Anotación : </strong></label>
-                <textarea name="anotacion" className="form-control" onChange={this.handleChange}  id="exampleFormControlTextarea1" cols="10" rows="2"></textarea>
+                <label for="exampleFormControlTextarea1"><strong>Observación : </strong></label>
+                <textarea name="observacion" className="form-control" onChange={this.handleChange}  id="exampleFormControlTextarea1" cols="10" rows="2"></textarea>
                 </div>
                 <div className="col-sm-6 offset-sm-3 py-1">
                 <button type="submit" className="btn btn-success btn-lg btn-block">Agregar Trámite</button>
