@@ -4,6 +4,7 @@ import Axios from 'axios';
 import CONFIG from '../Configuracion/Config';
 import TipoBusqueda from './TipoBusqueda';
 
+
 export default class Busqueda extends Component {
 
     state = {
@@ -23,27 +24,37 @@ export default class Busqueda extends Component {
         estado: 0,
         idPersona: 0,
         observacion: '',
-        
+        informacionPersona: {},
+        error: 0
     };
-     
-    
 
-    crearPersona = (a, b) =>{
-        this.setState({nombre:b, idPersona:a})
-        console.log('Creando Persona')
+    crearPersona = async (a) =>{
+        this.setState({error : 1})
+        this.setState({informacionPersona: {}})
+        const res = await Axios.get(CONFIG+'Persona/lista/'+a.toUpperCase())
+        console.log(res.data)
+        if (res != null) {
+            this.setState({informacionPersona: res.data})
+            this.setState({idPersona: res.data.persona_id})
+            this.setState({error : 2})
+        }
     }
 
     onSubmit = async e =>{
         e.preventDefault();
-        console.log(this.state)
+        if(this.state.idPersona === 0){
+            console.log('falta la persona p mongol')
+        }else{
+            console.log(this.state)
         this.setState({fechaAsignacion: new Date()})
-        await Axios.post(CONFIG+'Expediente_cab/guardarExpediente_cab',{ 
+        const res = await Axios.post(CONFIG+'Expediente_cab/guardarExpediente_cab',{ 
             n_expedediente:this.state.numero,
             f_expediente:this.state.fechaTramite,
             persona_id:this.state.idPersona,
             id_tipotramite:this.state.tramite,
             estado_id:this.state.estado
         })
+        console.log(res)
         await Axios.post(CONFIG+'Expediente_det/guardarExpediente_det',{
             id_expedienteCab: this.state.numero,
             persona_id:this.state.idPersona,
@@ -52,6 +63,7 @@ export default class Busqueda extends Component {
             f_asignacion:this.state.fechaAsignacion,
             observaciones:this.state.observacion
         })  
+        }
            
     }
 
@@ -86,6 +98,54 @@ export default class Busqueda extends Component {
         const resRecursos = await Axios.get(CONFIG+'administrativo/lista')
         this.setState({recursos: resRecursos.data})
     }
+
+    error = () =>{
+        return(
+        <div className="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Ocurrio un Error!</strong> No se pudo realizar la consulta
+        <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        )
+    }
+
+    exito = () => {
+        return(
+        <div className="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Consulta Exitosa!</strong> Consulta realizada exitosamente
+        <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        )
+    }
+
+    InformacionPersona =  ()=>{
+        if(this.state.error === 0){
+            return  (<span></span>)
+        }else{
+           if( this.state.error === 1){
+            return  (
+            <div className="col-sm-8 offset-md-2"><this.error/></div>)
+           }
+           else{
+            return (
+                <div className="col-sm-8 offset-md-2">
+                    <this.exito/>
+                <div className="card ">
+                <div className="card-body">
+                    <h5 className="card-title">Informacion de la Persona</h5>
+                    <p className="card-text">Apellidos y Nombres : {this.state.informacionPersona.persona_apaterno + ' '
+                    + this.state.informacionPersona.persona_amaterno + ' ' + this.state.informacionPersona.persona_nombres} </p>
+                </div>
+                </div>
+                </div>
+            )
+           }
+        }
+    }
+
     componentDidMount(){
         this.getAnotaciones()
         this.getConceptos()
@@ -97,8 +157,10 @@ export default class Busqueda extends Component {
     render() {
         return (
             <div>
-                 <TipoBusqueda addPersona={this.crearPersona} getTramite={this.props.getTramite} className="py4 px-4"/>
-                <div className="form-group">
+                 <TipoBusqueda agregarPersona={this.crearPersona} getTramite={this.props.getTramite} className="py4 px-4"/>
+                 <this.InformacionPersona className="py-2"/>
+                <div className="form-group py-2">
+                
                 <form onSubmit={this.onSubmit}>
                 <table className="table" >
                     <thead>
@@ -166,6 +228,13 @@ export default class Busqueda extends Component {
                         </tr>
                     </tbody>
                 </table>
+                <div  className="col-sm-12">
+                <label for="exampleFormControlTextarea1"><strong>Anotación : </strong></label>
+                <textarea name="anotacion" className="form-control" onChange={this.handleChange}  id="exampleFormControlTextarea1" cols="10" rows="2"></textarea>
+                </div>
+                <div className="col-sm-6 offset-sm-3 py-1">
+                <button type="submit" className="btn btn-success btn-lg btn-block">Agregar Trámite</button>
+                </div>
             </form>
             </div>  
 

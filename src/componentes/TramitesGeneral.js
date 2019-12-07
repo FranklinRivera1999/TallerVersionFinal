@@ -12,13 +12,29 @@ export default class TramitesGeneral extends Component {
         tipo_tramites: [],
         tipo_tramite:'',
         recursos: [],
-        recurso: ''
+        recurso: '',
+        anotaciones: [],
+        anotacion: '',
+        estados: [],
+        estado: '',
+        nombres: ''
     }
 
 handleChange = e =>{ 
     this.setState({
      [e.target.name]: e.target.value ,
     }) 
+}
+
+getAnotaciones = async () =>{
+    const resAnotacion = await axios.get(CONFIG+'Anotacion/lista')
+    console.log(CONFIG+'Anotacion/lista')
+    this.setState({anotaciones: resAnotacion.data})
+}
+
+getEstados = async()=>{
+    const resEstado= await axios.get(CONFIG+'Estado/lista')
+    this.setState({estados: resEstado.data})
 }
 
 getTipoTramites= async()=>{
@@ -52,17 +68,50 @@ getTramites = async ()=>{
 
 buscarConcepto = async (e)=>{
     e.preventDefault()
+    console.log('Buscando por N° concepto')
     console.log(this.state.concepto)
+    const res = await axios.get(CONFIG+'expedienteTotal/listaByConcepto/'+this.state.concepto) 
+    console.log(res)
+    this.setState({tramites: res.data})
 }
 
 buscarTipoTramite = async (e)=>{
     e.preventDefault()
-    console.log(this.state.tipo_tramite)
+    const res = await axios.get(CONFIG+'expedienteTotal/listaByTramite/'+this.state.tipo_tramite) 
+    console.log(res)
+    this.setState({tramites: res.data})
 }
 
 buscarRecurso = async (e)=>{
     e.preventDefault()
     console.log(this.state.recurso)
+    const res = await axios.get(CONFIG+'expedienteTotal/listaByAnotacion/'+this.state.recurso)
+    console.log(res)
+    this.setState({tramites: res.data})
+}
+
+buscarAnotacion= async (e)=>{
+    e.preventDefault()
+    const res = await axios.get(CONFIG+'expedienteTotal/listaByAnotacion/'+this.state.anotacion)
+    console.log(res)
+    this.setState({tramites: res.data})
+    console.log(this.state.anotacion)
+}
+
+buscarEstado= async (e)=>{
+    e.preventDefault()
+    const res = await axios.get(CONFIG+'expedienteTotal/listaByEstado/'+this.state.estado)
+    console.log(res)
+    this.setState({tramites: res.data})
+    console.log(this.state.estado)
+}
+
+buscarNTramite = async e =>{
+    e.preventDefault()
+    const res = await axios.get(CONFIG+'expedienteTotal/listaByNTramite/'+this.state.nombres.toUpperCase())
+    console.log(res)
+    this.setState({tramites: res.data})
+    console.log(this.state.nombres.toUpperCase());
 }
 
 async componentDidMount(){
@@ -70,6 +119,8 @@ async componentDidMount(){
     this.getTramites()
     this.getTipoTramites()
     this.getRecursos()
+    this.getAnotaciones()
+    this.getEstados()
 }
 
     render() {
@@ -79,7 +130,24 @@ async componentDidMount(){
                 <table className="table table-bordered">
                 <thead className="thead-dark">
                     <tr>
-                    <th scope="col">N°</th>
+                    <th scope="col">
+                    <div className="dropdown">
+                        <button type="button" className="btn btn-dark dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10,20">
+                            <strong>N°</strong>
+                        </button>
+                        <div className="dropdown-menu col-sm-2" aria-labelledby="dropdownMenuOffset">
+                            <div className="py-1 px-2">
+                                <form  onSubmit={this.buscarNTramite}>
+                                <div className="form-group">
+                                    <label for="exampleDropdownFormEmail1">Número de Trámite :</label>
+                                    <input type="text" className="form-control" name="nombres" id="xampleDropdownFormEmail1"  onChange={this.handleChange}></input> 
+                                </div>
+                                <button type="submit" class="btn btn-primary">Buscar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    </th>
                     <th scope="col">
                     <div className="dropdown">
                         <button type="button" className="btn btn-dark dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10,20">
@@ -94,7 +162,7 @@ async componentDidMount(){
                                         <option value="" disabled selected>Escoger Concepto</option>
                                         {
                                             this.state.conceptos.map(concepto => 
-                                                <option value={concepto.idConcepto}>{concepto.concepto}</option>)
+                                                <option value={concepto.concepto}>{concepto.concepto}</option>)
                                         }
                                    </select> 
                                 </div>
@@ -118,7 +186,7 @@ async componentDidMount(){
                                         <option value="" disabled selected>Escoger Trámite</option>
                                         {
                                             this.state.tipo_tramites.map(tipo => 
-                                                <option value={tipo.id_tipotramite}>{tipo.desc_tipotramite}</option>)
+                                                <option value={tipo.desc_tipotramite}>{tipo.desc_tipotramite}</option>)
                                         }
                                    </select> 
                                 </div>
@@ -130,12 +198,9 @@ async componentDidMount(){
                     </th>
                     <th scope="col">
                     <div className="dropdown mr-1">
-                        <button type="button" className="btn btn-dark dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10,20">
+                        <button type="button" className="btn btn-dark">
                            <strong>Persona</strong>
                         </button>
-                        <div className="dropdown-menu" aria-labelledby="dropdownMenuOffset">
-                        <p className="dropdown-item">Action</p>
-                        </div>
                     </div>
                     </th>
                     <th scope="col">Fecha del Trámite</th>
@@ -154,7 +219,7 @@ async componentDidMount(){
                                         <option value="" disabled selected>Escoger Recurso</option>
                                         {
                                                 this.state.recursos.map(recurso => 
-                                                    <option value={recurso.idAdmin}>{recurso.nombres}</option>)
+                                                    <option value={recurso.nombres}>{recurso.nombres}</option>)
                                         }
                                    </select> 
                                 </div>
@@ -170,7 +235,21 @@ async componentDidMount(){
                             <strong>Anotación</strong>
                         </button>
                         <div className="dropdown-menu" aria-labelledby="dropdownMenuOffset">
-                        <p className="dropdown-item">Action</p>
+                            <div className="py-1 px-2">
+                                <form  onSubmit={this.buscarAnotacion}>
+                                <div className="form-group">
+                                    <label for="exampleDropdownFormEmail1">Anotación :</label>
+                                    <select name="anotacion" onChange={this.handleChange} className="custom-select custom-select-sm" for="exampleDropdownFormEmail1">
+                                        <option value="" disabled selected>Escoger Anotación</option>
+                                        {
+                                               this.state.anotaciones.map(anotacion => 
+                                                <option value={anotacion.desc_anotacion}>{anotacion.desc_anotacion}</option>)
+                                        }
+                                   </select> 
+                                </div>
+                                <button type="submit" class="btn btn-primary">Buscar</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                     </th>
@@ -180,7 +259,21 @@ async componentDidMount(){
                             <strong>Estado</strong>
                         </button>
                         <div className="dropdown-menu" aria-labelledby="dropdownMenuOffset">
-                        <p className="dropdown-item">Action</p>
+                            <div className="py-1 px-2">
+                                <form  onSubmit={this.buscarEstado}>
+                                <div className="form-group">
+                                    <label for="exampleDropdownFormEmail1">Estado :</label>
+                                    <select name="estado" onChange={this.handleChange} className="custom-select custom-select-sm" for="exampleDropdownFormEmail1">
+                                        <option value="" disabled selected>Escoger Estado:</option>
+                                        {
+                                            this.state.estados.map(estado => 
+                                                <option value={estado.estado_descripcion}>{estado.estado_descripcion}</option>)
+                                        }
+                                   </select> 
+                                </div>
+                                <button type="submit" class="btn btn-primary">Buscar</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                     </th>

@@ -1,3 +1,3 @@
 const CONFIG = 'https://sigapdev-taller-sistemas.herokuapp.com/';
-//const CONFIG = 'http://192.168.1.7:8080/';
+//const CONFIG = 'http://500a8b92.ngrok.io/';
 export default CONFIG;
