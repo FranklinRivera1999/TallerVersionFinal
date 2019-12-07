@@ -13,7 +13,7 @@ export default class Busqueda extends Component {
         conceptos: [],
         anotaciones: [],
         tipo_tramites: [],
-        numero: '',
+        numero: 0,
         nombre: '',
         concepto: 0,
         tramite: '',
@@ -46,12 +46,17 @@ export default class Busqueda extends Component {
             console.log('falta la persona')
         }else{
             console.log('Empezando a wardar la cabezera')
+            console.log(this.state.numero+'-'+
+                this.state.fechaTramite+'-'+
+                this.state.idPersona+'-'+
+                this.state.tramite+'-'+
+                this.state.estado)
         this.setState({fechaAsignacion: new Date()})
         const res = await Axios.post(CONFIG+'Expediente_cab/registrarExpediente_cab',{ 
             n_expedediente:this.state.numero,
             f_expediente:this.state.fechaTramite,
             persona_id:this.state.idPersona,
-            id_tipotramite:this.state.tramite,
+            id_tipotramite:1,
             estado_id:this.state.estado
         })
         console.log(res)
@@ -60,7 +65,7 @@ export default class Busqueda extends Component {
         console.log(this.state)
        const ras =  await Axios.post(CONFIG+'Expediente_det/guardarExpediente_det',{
             id_expediente: res.data.id_expediente,
-            persona_id:this.state.recurso,
+            persona_id:2154,
             id_anotacion:this.state.anotacion,
             estado_id: this.state.estado,
             f_asignacion:this.state.fechaAsignacion,
@@ -68,7 +73,6 @@ export default class Busqueda extends Component {
         })  
         console.log(ras)
         }
-           
     }
 
 
@@ -233,7 +237,7 @@ export default class Busqueda extends Component {
                     </tbody>
                 </table>
                 <div  className="col-sm-12">
-                <label for="exampleFormControlTextarea1"><strong>Observación : </strong></label>
+                <label for="exampleFormControlTextarea1"><strong>Anotación : </strong></label>
                 <textarea name="observacion" className="form-control" onChange={this.handleChange}  id="exampleFormControlTextarea1" cols="10" rows="2"></textarea>
                 </div>
                 <div className="col-sm-6 offset-sm-3 py-1">
