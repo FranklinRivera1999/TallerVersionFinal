@@ -56,7 +56,7 @@ export default class Busqueda extends Component {
             n_expedediente:this.state.numero,
             f_expediente:this.state.fechaTramite,
             persona_id:this.state.idPersona,
-            id_tipotramite:1,
+            id_tipotramite:this.state.tramite,
             estado_id:this.state.estado
         })
         console.log(res)

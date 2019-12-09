@@ -3,6 +3,7 @@ import axios from 'axios';
 import CONFIG  from '../Configuracion/Config';
 
 import Busqueda from './Busqueda';
+import Navigation from './Navigation';
 
 export default class Main extends Component {
 
@@ -43,6 +44,7 @@ getTramite = async (x) =>{
     render() {
         return (
             <div>
+                <Navigation></Navigation>
                 <Busqueda getTramite={this.getTramite} className="py-2"/>   
                 <div className="card col-sm-12 my-2">
                 <h5 class="offset-md-4 h4"><strong>DETALLES DEL EXPEDIENTE:</strong></h5>

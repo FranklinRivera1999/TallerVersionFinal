@@ -3,6 +3,7 @@ import axios from 'axios';
 import CONFIG  from '../Configuracion/Config';
 
 import Filtros from './Filtros';
+import Navigation from './Navigation';
 export default class TramitesGeneral extends Component {
     state={
         tramites: [],
@@ -125,6 +126,7 @@ async componentDidMount(){
 
     render() {
         return (
+            <div><Navigation/>
             <div className="py-4">
                 <Filtros  className="py-2" updateTramite={this.asignarTramites} />
                 <table className="table table-bordered">
@@ -303,6 +305,7 @@ async componentDidMount(){
                 </tbody>
                 </table>   
                 
+            </div>
             </div>
         )
     }
