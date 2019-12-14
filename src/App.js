@@ -8,7 +8,7 @@ import './App.css';
 // Put any other imports below so that CSS from your
 // components takes precedence over default styles.
 
-import Navigation from './componentes/Navigation';
+//import Navigation from './componentes/Navigation';
 import Main from './componentes/Main';
 import TramitesGeneral from './componentes/TramitesGeneral';
 

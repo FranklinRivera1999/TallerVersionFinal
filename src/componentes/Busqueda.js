@@ -25,20 +25,34 @@ export default class Busqueda extends Component {
         idPersona: 0,
         observacion: '',
         informacionPersona: {},
-        error: 0
+        informacionAlumno:{},
+        error: 0,
+        respuesta: []
     };
 
     crearPersona = async (a) =>{
         this.setState({error : 1})
         this.setState({informacionPersona: {}})
-        const res = await Axios.get(CONFIG+'Persona/lista/'+a.toUpperCase())
-        console.log(res.data)
-        if (res != null) {
-            this.setState({informacionPersona: res.data})
-            this.setState({idPersona: res.data.persona_id})
-            this.setState({error : 2})
+        const resdos = await Axios.get(CONFIG+'alumno/alumnoprograma/programa/leer/restringido/'+a.toUpperCase())
+        console.log(resdos)
+        if (resdos.data.length === 1) {
+            this.setState({informacionAlumno: resdos.data[0]})
+            this.setState({idPersona: resdos.data[0].persona_id})
+            this.setState({error : 4})
+           
+        }else {
+            console.log('empezando a leer en la tabla personas')
+            
+            const res = await Axios.get(CONFIG+'Persona/lista/'+a.toUpperCase())
+            console.log(res)
+            if(res != null){
+                this.setState({informacionPersona: res.data})
+                this.setState({idPersona: res.data.persona_id})
+                this.setState({error : 3}) 
+            }
         }
     }
+
 
     onSubmit = async e =>{
         e.preventDefault();
@@ -138,21 +152,39 @@ export default class Busqueda extends Component {
             <div className="col-sm-8 offset-md-2"><this.error/></div>)
            }
            else{
-            return (
-                <div className="col-sm-8 offset-md-2">
-                    <this.exito/>
-                <div className="card ">
-                <div className="card-body">
-                    <h5 className="card-title">Informacion de la Persona</h5>
-                    <p className="card-text">Apellidos y Nombres : {this.state.informacionPersona.persona_apaterno + ' '
-                    + this.state.informacionPersona.persona_amaterno + ' ' + this.state.informacionPersona.persona_nombres} </p>
-                </div>
-                </div>
-                </div>
-            )
+                if (this.state.error ===3){
+                        return (
+                            <div className="col-sm-8 offset-md-2">
+                                <this.exito/>
+                            <div className="card ">
+                            <div className="card-body">
+                                <h5 className="card-title">Informacion de la Persona</h5>
+                                <p className="card-text">Apellidos y Nombres : {this.state.informacionPersona.persona_apaterno + ' '
+                                + this.state.informacionPersona.persona_amaterno + ' ' + this.state.informacionPersona.persona_nombres} </p>
+                            </div>
+                            </div>
+                            </div>
+                    )
+                }
+                else {
+                    return (
+                        <div className="col-sm-8 offset-md-2">
+                        <this.exito/>
+                    <div className="card ">
+                    <div className="card-body">
+                        <h5 className="card-title">Informacion Alumno:</h5>
+                        <p className="card-text">Codigo : {this.state.informacionAlumno.codAlumno} Programa: {this.state.informacionAlumno.siglaPrograma} </p>
+                        <h5 className="card-title">Informacion de la Persona</h5>
+                        <p className="card-text">Apellidos y Nombres : {this.state.informacionAlumno.apeNom} </p>
+                    </div>
+                    </div>
+                    </div>
+                    )
+                }
            }
         }
     }
+    
 
     componentDidMount(){
         this.getAnotaciones()
@@ -237,7 +269,7 @@ export default class Busqueda extends Component {
                     </tbody>
                 </table>
                 <div  className="col-sm-12">
-                <label for="exampleFormControlTextarea1"><strong>Anotación : </strong></label>
+                <label for="exampleFormControlTextarea1"><strong>Observación : </strong></label>
                 <textarea name="observacion" className="form-control" onChange={this.handleChange}  id="exampleFormControlTextarea1" cols="10" rows="2"></textarea>
                 </div>
                 <div className="col-sm-6 offset-sm-3 py-1">

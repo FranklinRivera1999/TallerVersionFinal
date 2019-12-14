@@ -1,3 +1,3 @@
-const CONFIG = 'https://sigapdev-taller-sistemas.herokuapp.com/';
+const CONFIG = 'https://backend-registro-expedientes.herokuapp.com/';
 
 export default CONFIG;
