@@ -84,7 +84,7 @@ export default class Busqueda extends Component {
             f_asignacion:this.state.fechaAsignacion,
             observaciones:this.state.observacion
         })  
-        console.log(ras)
+        console.log('TRAMITE AGREGADO')
         }
     }
 
