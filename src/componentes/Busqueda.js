@@ -53,7 +53,6 @@ export default class Busqueda extends Component {
         }
     }
 
-
     onSubmit = async e =>{
         e.preventDefault();
         if(this.state.idPersona === 0){
