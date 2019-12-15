@@ -13,7 +13,7 @@ export default class Busqueda extends Component {
         conceptos: [],
         anotaciones: [],
         tipo_tramites: [],
-        numero: '',
+        numero: 0,
         nombre: '',
         concepto: 0,
         tramite: '',
@@ -59,6 +59,11 @@ export default class Busqueda extends Component {
             console.log('falta la persona')
         }else{
             console.log('Empezando a wardar la cabezera')
+            console.log(this.state.numero+'-'+
+                this.state.fechaTramite+'-'+
+                this.state.idPersona+'-'+
+                this.state.tramite+'-'+
+                this.state.estado)
         this.setState({fechaAsignacion: new Date()})
         const res = await Axios.post(CONFIG+'Expediente_cab/registrarExpediente_cab',{ 
             n_expedediente:this.state.numero,
@@ -73,15 +78,14 @@ export default class Busqueda extends Component {
         console.log(this.state)
        const ras =  await Axios.post(CONFIG+'Expediente_det/guardarExpediente_det',{
             id_expediente: res.data.id_expediente,
-            persona_id:this.state.recurso,
+            persona_id:2154,
             id_anotacion:this.state.anotacion,
             estado_id: this.state.estado,
             f_asignacion:this.state.fechaAsignacion,
             observaciones:this.state.observacion
         })  
-        console.log(ras)
+        console.log('TRAMITE AGREGADO')
         }
-           
     }
 
 
@@ -168,7 +172,11 @@ export default class Busqueda extends Component {
                     <div className="card ">
                     <div className="card-body">
                         <h5 className="card-title">Informacion Alumno:</h5>
+<<<<<<< HEAD
                         <p className="card-text">Codigo : {this.state.informacionAlumno.codAlumno+'          Siglas del Programa: '+this.state.informacionAlumno.siglaPrograma}</p>
+=======
+                        <p className="card-text">Codigo : {this.state.informacionAlumno.codAlumno+'Programa: '+this.state.informacionAlumno.siglaPrograma}</p>
+>>>>>>> 75c17cf002f23bdda9bdd1274808a573a25d376b
                         <p className="card-text">Apellidos y Nombres : {this.state.informacionAlumno.apeNom} </p>
                     </div>
                     </div>
@@ -178,6 +186,7 @@ export default class Busqueda extends Component {
            }
         }
     }
+    
 
     componentDidMount(){
         this.getAnotaciones()
