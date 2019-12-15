@@ -172,11 +172,7 @@ export default class Busqueda extends Component {
                     <div className="card ">
                     <div className="card-body">
                         <h5 className="card-title">Informacion Alumno:</h5>
-<<<<<<< HEAD
                         <p className="card-text">Codigo : {this.state.informacionAlumno.codAlumno+'          Siglas del Programa: '+this.state.informacionAlumno.siglaPrograma}</p>
-=======
-                        <p className="card-text">Codigo : {this.state.informacionAlumno.codAlumno+'Programa: '+this.state.informacionAlumno.siglaPrograma}</p>
->>>>>>> 75c17cf002f23bdda9bdd1274808a573a25d376b
                         <p className="card-text">Apellidos y Nombres : {this.state.informacionAlumno.apeNom} </p>
                     </div>
                     </div>
