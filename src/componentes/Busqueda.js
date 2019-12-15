@@ -25,18 +25,31 @@ export default class Busqueda extends Component {
         idPersona: 0,
         observacion: '',
         informacionPersona: {},
-        error: 0
+        informacionAlumno:{},
+        error: 0,
+        respuesta: []
     };
 
     crearPersona = async (a) =>{
         this.setState({error : 1})
         this.setState({informacionPersona: {}})
-        const res = await Axios.get(CONFIG+'Persona/lista/'+a.toUpperCase())
-        console.log(res.data)
-        if (res != null) {
-            this.setState({informacionPersona: res.data})
-            this.setState({idPersona: res.data.persona_id})
-            this.setState({error : 2})
+        const resdos = await Axios.get(CONFIG+'alumno/alumnoprograma/programa/leer/restringido/'+a.toUpperCase())
+        console.log(resdos)
+        if (resdos.data.length === 1) {
+            this.setState({informacionAlumno: resdos.data[0]})
+            this.setState({idPersona: resdos.data[0].persona_id})
+            this.setState({error : 4})
+           
+        }else {
+            console.log('empezando a leer en la tabla personas')
+            
+            const res = await Axios.get(CONFIG+'Persona/lista/'+a.toUpperCase())
+            console.log(res)
+            if(res != null){
+                this.setState({informacionPersona: res.data})
+                this.setState({idPersona: res.data.persona_id})
+                this.setState({error : 3}) 
+            }
         }
     }
 
@@ -134,18 +147,34 @@ export default class Busqueda extends Component {
             <div className="col-sm-8 offset-md-2"><this.error/></div>)
            }
            else{
-            return (
-                <div className="col-sm-8 offset-md-2">
-                    <this.exito/>
-                <div className="card ">
-                <div className="card-body">
-                    <h5 className="card-title">Informacion de la Persona</h5>
-                    <p className="card-text">Apellidos y Nombres : {this.state.informacionPersona.persona_apaterno + ' '
-                    + this.state.informacionPersona.persona_amaterno + ' ' + this.state.informacionPersona.persona_nombres} </p>
-                </div>
-                </div>
-                </div>
-            )
+                if (this.state.error ===3){
+                        return (
+                            <div className="col-sm-8 offset-md-2">
+                                <this.exito/>
+                            <div className="card ">
+                            <div className="card-body">
+                                <h5 className="card-title">Informacion de la Persona</h5>
+                                <p className="card-text">Apellidos y Nombres : {this.state.informacionPersona.persona_apaterno + ' '
+                                + this.state.informacionPersona.persona_amaterno + ' ' + this.state.informacionPersona.persona_nombres} </p>
+                            </div>
+                            </div>
+                            </div>
+                    )
+                }
+                else {
+                    return (
+                        <div className="col-sm-8 offset-md-2">
+                        <this.exito/>
+                    <div className="card ">
+                    <div className="card-body">
+                        <h5 className="card-title">Informacion Alumno:</h5>
+                        <p className="card-text">Codigo : {this.state.informacionAlumno.codAlumno+'          Siglas del Programa: '+this.state.informacionAlumno.siglaPrograma}</p>
+                        <p className="card-text">Apellidos y Nombres : {this.state.informacionAlumno.apeNom} </p>
+                    </div>
+                    </div>
+                    </div>
+                    )
+                }
            }
         }
     }
@@ -184,7 +213,7 @@ export default class Busqueda extends Component {
                         <th><input type="text" name="numero" onChange={this.handleChange} required className="form-control form-control-sm" /></th>
                         <td>
                             <div className="">
-                            <select name="concepto" onChange={this.handleChange} className="custom-select custom-select-sm">
+                            <select disabled name="concepto" onChange={this.handleChange} className="custom-select custom-select-sm">
                             <option value="" selected>Sin concepto</option>
                             {
                                 this.state.conceptos.map(concepto => 

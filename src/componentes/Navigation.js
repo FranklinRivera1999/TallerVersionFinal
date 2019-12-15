@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 export default class Navigation extends Component {
     render() {
         return (
-            <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+            <nav className="navbar navbar-expand-lg navbar-dark bg-info">
             <div className="container">
                 <Link className="navbar-brand" to="/"><h3 class="font-weight-bolder">Registro Interno de Expedientes</h3></Link>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
