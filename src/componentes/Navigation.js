@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-//import {Link} from 'react-router-dom';
-import {Link} from 'react-router-3';
+import {Link} from 'react-router-dom';
+//import {Link} from 'react-router-3';
 export default class Navigation extends Component {
     render() {
         return (

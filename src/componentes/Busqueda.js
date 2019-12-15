@@ -172,8 +172,7 @@ export default class Busqueda extends Component {
                     <div className="card ">
                     <div className="card-body">
                         <h5 className="card-title">Informacion Alumno:</h5>
-                        <p className="card-text">Codigo : {this.state.informacionAlumno.codAlumno} Programa: {this.state.informacionAlumno.siglaPrograma} </p>
-                        <h5 className="card-title">Informacion de la Persona</h5>
+                        <p className="card-text">Codigo : {this.state.informacionAlumno.codAlumno+'Programa: '+this.state.informacionAlumno.siglaPrograma}</p>
                         <p className="card-text">Apellidos y Nombres : {this.state.informacionAlumno.apeNom} </p>
                     </div>
                     </div>
@@ -219,7 +218,7 @@ export default class Busqueda extends Component {
                         <th><input type="text" name="numero" onChange={this.handleChange} required className="form-control form-control-sm" /></th>
                         <td>
                             <div className="">
-                            <select name="concepto" onChange={this.handleChange} className="custom-select custom-select-sm">
+                            <select disabled name="concepto" onChange={this.handleChange} className="custom-select custom-select-sm">
                             <option value="" selected>Sin concepto</option>
                             {
                                 this.state.conceptos.map(concepto => 
