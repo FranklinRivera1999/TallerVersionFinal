@@ -150,30 +150,7 @@ async componentDidMount(){
                         </div>
                     </div>
                     </th>
-                    <th scope="col">
-                    <div className="dropdown">
-                        <button type="button" className="btn btn-dark dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10,20">
-                           <strong>Concepto</strong>
-                        </button>
-                        <div className="dropdown-menu col-sm-2" aria-labelledby="dropdownMenuOffset">
-                            <div className="py-1 px-2">
-                                <form  onSubmit={this.buscarConcepto}>
-                                <div className="form-group">
-                                    <label for="exampleDropdownFormEmail1">Concepto :</label>
-                                    <select name="concepto" onChange={this.handleChange} className="custom-select custom-select-sm" for="exampleDropdownFormEmail1">
-                                        <option value="" disabled selected>Escoger Concepto</option>
-                                        {
-                                            this.state.conceptos.map(concepto => 
-                                                <option value={concepto.concepto}>{concepto.concepto}</option>)
-                                        }
-                                   </select> 
-                                </div>
-                                <button type="submit" class="btn btn-primary">Buscar</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    </th>
+                    
                     <th scope="col">
                     <div className="dropdown">
                         <button type="button" className="btn btn-dark dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10,20">
@@ -287,7 +264,7 @@ async componentDidMount(){
                             this.state.tramites.map(tramite => 
                             <tr>
                             <th scope="row">{tramite.n_expediente}</th>
-                            <td>{tramite.concep_a}</td>
+                            
                             <td>{tramite.desc_tipotramite}</td>
                             <td>{tramite.persona_nombres + ' '+tramite.persona_apaterno +' '+ tramite.persona_amaterno}</td>
                             <td>{tramite.f_expediente}</td>

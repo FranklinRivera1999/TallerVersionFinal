@@ -33,11 +33,13 @@ export default class Busqueda extends Component {
     crearPersona = async (a) =>{
         this.setState({error : 1})
         this.setState({informacionPersona: {}})
-        const resdos = await Axios.get(CONFIG+'alumno/alumnoprograma/programa/leer/restringido/'+a.toUpperCase())
+        const resdos = await Axios.get(CONFIG+'alumno/alumnoprograma/programa/listar/restringido/'+a.toUpperCase())
+        const restres = await Axios.get(CONFIG+'Persona/lista/'+a.toUpperCase())
+        console.log(restres)
+         this.setState({idPersona: restres.data.persona_id})
         console.log(resdos)
         if (resdos.data.length === 1) {
             this.setState({informacionAlumno: resdos.data[0]})
-            this.setState({idPersona: resdos.data[0].persona_id})
             this.setState({error : 4})
            
         }else {
@@ -204,7 +206,7 @@ export default class Busqueda extends Component {
                     <thead>
                         <tr>
                         <th scope="col">Número</th>
-                        <th scope="col">Concepto</th>
+                        
                         <th scope="col">Trámite</th>
                         <th scope="col">Fecha del Trámite</th>
                         <th scope="col">Recurso</th>
@@ -216,17 +218,6 @@ export default class Busqueda extends Component {
                         <tr>
                         
                         <th><input type="text" name="numero" onChange={this.handleChange} required className="form-control form-control-sm" /></th>
-                        <td>
-                            <div className="">
-                            <select disabled name="concepto" onChange={this.handleChange} className="custom-select custom-select-sm">
-                            <option value="" selected>Sin concepto</option>
-                            {
-                                this.state.conceptos.map(concepto => 
-                                    <option value={concepto.idConcepto}>{concepto.concepto}</option>)
-                            }
-                            </select> 
-                            </div>
-                        </td>
                         <td> <div className="">
                             <select name="tramite" onChange={this.handleChange} required className="custom-select custom-select-sm">
                             <option value="" disabled selected>Eliga una opción</option>
